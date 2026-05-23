@@ -1,13 +1,52 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>正在进入...</title>
+    <style>
+        /* 让页面居中，去掉多余的边距 */
+        body, html { height: 100%; margin: 0; display: flex; justify-content: center; align-items: center; background-color: #f7f7f7; }
+        
+        /* 绿色大按钮的样式 */
+        #jumpBtn {
+            width: 80%; /* 宽度占屏幕的80% */
+            max-width: 400px;
+            padding: 18px 0;
+            font-size: 20px;
+            color: #ffffff;
+            background-color: #07c160; /* 微信绿 */
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(7, 193, 96, 0.3);
+            transition: background-color 0.3s;
+        }
+        
+        #jumpBtn:active { background-color: #05a052; } /* 点击时的反馈效果 */
+    </style>
+</head>
 <body>
-    <button id="jumpBtn" style="padding:20px; font-size:20px;">点击继续访问</button>
+
+    <button id="jumpBtn">点击继续访问</button>
+
     <script>
         const params = new URLSearchParams(window.location.search);
         const encodedUrl = params.get('url');
+
         document.getElementById('jumpBtn').onclick = function() {
-            if(encodedUrl) window.location.href = atob(encodedUrl);
-            else alert("无效链接");
+            if (encodedUrl) {
+                try {
+                    // 解码 Base64 地址
+                    window.location.href = atob(encodedUrl);
+                } catch (e) {
+                    alert("链接格式错误，请检查生成器。");
+                }
+            } else {
+                alert("未配置目标链接");
+            }
         };
     </script>
 </body>
