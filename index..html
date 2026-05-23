@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <button id="jumpBtn" style="padding:20px; font-size:20px;">点击继续访问</button>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const encodedUrl = params.get('url');
+        document.getElementById('jumpBtn').onclick = function() {
+            if(encodedUrl) window.location.href = atob(encodedUrl);
+            else alert("无效链接");
+        };
+    </script>
+</body>
+</html>
