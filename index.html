@@ -3,29 +3,20 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gateway</title>
     <style>
         body, html { margin: 0; padding: 0; height: 100%; width: 100%; overflow: hidden; }
-        iframe { width: 100%; height: 100%; border: none; }
+        #myFrame { width: 100%; height: 100%; border: none; }
     </style>
 </head>
 <body>
-    <iframe id="myFrame" src="" scrolling="yes" allow="autoplay; fullscreen"></iframe>
+    <iframe id="myFrame" name="myFrame" src="https://kmkm.rrgnf.cn/ceshi.html" style="width:100%; height:100%; border:none;"></iframe>
 
     <script>
-        const iframe = document.getElementById('myFrame');
         const params = new URLSearchParams(window.location.search);
-        
-        // 路由配置表：在这里集中管理你的所有跳转页
-        const routes = {
-            'home': 'https://kmkm.rrgnf.cn/ceshi.html',
-            '1': 'http://sskm.gouche.pub/pay/assign.php' // 这里的 key '1' 对应 ?pay=1
-        };
-
-        // 如果有 ?pay=xx 参数，就去路由表里找，没找到就默认加载首页
-        const pageKey = params.get('pay') || 'home';
-        iframe.src = routes[pageKey] || routes['home'];
+        // 如果检测到 ?target=pay，自动切换到你的支付页
+        if (params.get('target') === 'pay') {
+            document.getElementById('myFrame').src = 'http://sskm.gouche.pub/pay/assign.php';
+        }
     </script>
 </body>
 </html>
-
