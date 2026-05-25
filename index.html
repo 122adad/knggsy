@@ -2,27 +2,30 @@
 <html lang="zh-CN">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Safe Access</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gateway</title>
     <style>
         body, html { margin: 0; padding: 0; height: 100%; width: 100%; overflow: hidden; }
-        /* 壳子充满全屏 */
-        #myFrame { width: 100%; height: 100%; border: none; }
+        iframe { width: 100%; height: 100%; border: none; }
     </style>
 </head>
 <body>
-    <iframe id="myFrame" name="myFrame" src="https://kmkm.rrgnf.cn/ceshi.html" scrolling="yes"></iframe>
+    <iframe id="myFrame" src="" scrolling="yes" allow="autoplay; fullscreen"></iframe>
 
     <script>
-        // 2. 这里的 JS 是核心，它是一个“自动分配器”
-        // 只要页面里有任何点击，它就强行把链接的目标指向 iframe 的容器
-        document.addEventListener('click', function(e) {
-            var target = e.target;
-            // 只要点的是链接，就给它加个标记，让它必须在 iframe 里开
-            if (target.tagName === 'A') {
-                target.setAttribute('target', 'myFrame');
-            }
-        });
+        const iframe = document.getElementById('myFrame');
+        const params = new URLSearchParams(window.location.search);
+        
+        // 路由配置表：在这里集中管理你的所有跳转页
+        const routes = {
+            'home': 'https://kmkm.rrgnf.cn/ceshi.html',
+            '1': 'http://sskm.gouche.pub/pay/assign.php' // 这里的 key '1' 对应 ?pay=1
+        };
+
+        // 如果有 ?pay=xx 参数，就去路由表里找，没找到就默认加载首页
+        const pageKey = params.get('pay') || 'home';
+        iframe.src = routes[pageKey] || routes['home'];
     </script>
 </body>
 </html>
+
